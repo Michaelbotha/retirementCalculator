@@ -13,19 +13,19 @@ from dash.dependencies import Input, Output
 import time
 
 
-SATaxi_LOGO = httpscdn0.iconfinder.comdataiconscars-and-delivery512minibus-512.png
+SATaxi_LOGO = "https://cdn0.iconfinder.com/data/icons/cars-and-delivery/512/minibus-512.png"
 
 external_stylesheets = [
     {
-        href httpsfonts.googleapis.comcss2
-        family=Latowght@400;700&display=swap,
-        rel stylesheet,
+        "href": "https://fonts.googleapis.com/css2?"
+        "family=Lato:wght@400;700&display=swap",
+        "rel": "stylesheet",
     },
 ]
 
 
 app = dash.Dash(__name__,external_stylesheets=external_stylesheets)
-app.title = Finical advisory
+app.title = 'Finical advisory'
 
 server = app.server
 
@@ -39,15 +39,15 @@ page_2_layout = html.Div([
 
 dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink(Investment calculator, href=Investment calculator)),
+        dbc.NavItem(dbc.NavLink('Investment calculator', href='Investmentcalculator')),
     ],
-    brand=Finical advisory,
-    brand_href=#,
-    color=#3edbf0,
+    brand='Finical advisory',
+    brand_href='#',
+    color='#3edbf0',
     dark=True,
 ),
         html.P(
-            children=Most South africans are unaware of how much they really need to save for retirement and for how long their retirement income will last. We aim to assist our subscribers and broader society in the financial planning process through our range of financial calculators.  ,className=header-description),
+            children='Most South africans are unaware of how much they really need to save for retirement and for how long their retirement income will last. We aim to assist our subscribers and broader society in the financial planning process through our range of financial calculators.'  ,className='header-description'),
 
     dbc.Row([
 
@@ -139,13 +139,13 @@ dbc.NavbarSimple(
 
     dbc.Row([
         dbc.Col([
-            html.P(children=Projected retirement assets (in today's terms),className=Graph-header),
-            dcc.Graph( id='Projected-retirement-assets',config={displayModeBar False},),]
+            html.P(children= 'Projected retirement assets (in real terms)',className='Graph-header'),
+            dcc.Graph( id='Projected-retirement-assets',config={'displayModeBar': False},),]
      ),
 
        dbc.Col([
-        html.P(children=Monthly retirement income (in today's terms),className=Graph-header),
-        dcc.Graph( id='Retirement-Income-assets',config={displayModeBar False},) ])
+        html.P(children='Monthly retirement income (in real terms)',className='Graph-header'),
+        dcc.Graph( id='Retirement-Income-assets',config={'displayModeBar' : False},) ],)
     ]
         ,no_gutters=True,),
 
@@ -168,7 +168,7 @@ dbc.NavbarSimple(
                Input('Inflation-slider', 'value'),
                Input('TargetretirementIncome-slider', 'value')])
 
-def CalculateRetirement(Client_age,Client_Retirement_Age, InvestmentAmount,TermInRetirement, Client_GrowthRate,Client_Inflation , Client_target_Income )
+def CalculateRetirement(Client_age,Client_Retirement_Age, InvestmentAmount,TermInRetirement, Client_GrowthRate,Client_Inflation , Client_target_Income ):
 
     age = Client_age
     RetireMentAge = Client_Retirement_Age
@@ -178,76 +178,76 @@ def CalculateRetirement(Client_age,Client_Retirement_Age, InvestmentAmount,TermI
     period = RetireMentAge - age + 1 + TermInRetirement
     GrowthRate = Client_GrowthRate
     Inflation = Client_Inflation
-    RealReturn = ((1+ GrowthRate)(1+Inflation ) -1)
+    RealReturn = ((1+ GrowthRate)/(1+Inflation ) -1)
     N_rows = period
     N_cols = 6
     ValuesMatrix = pd.DataFrame(np.zeros((N_rows, N_cols)))
     TargetIncome = Client_target_Income
 
-    for x in range(period)
+    for x in range(period):
 
-        if (x + age)   RetireMentAge
+        if (x + age) <  RetireMentAge:
             ValuesMatrix.iloc[x][0] = age + x
 
-            if x == 0
+            if x == 0:
                 ValuesMatrix.iloc[x][1] = Fundvalue
-            else
+            else:
                 ValuesMatrix.iloc[x][1] = ValuesMatrix.iloc[x-1][3]
 
-            ValuesMatrix.iloc[x][2] = ValuesMatrix.iloc[x][1]RealReturn
+            ValuesMatrix.iloc[x][2] = ValuesMatrix.iloc[x][1]*RealReturn
             ValuesMatrix.iloc[x][3] = ValuesMatrix.iloc[x][2] + ValuesMatrix.iloc[x][1]
             ValuesMatrix.iloc[x][5] = ValuesMatrix.iloc[x][3]
 
-        elif ((x + age) =  RetireMentAge)
+        elif ((x + age) >=  RetireMentAge):
 
             ValuesMatrix.iloc[x][0] = age + x
 
 
-            if (((12TargetIncomeValuesMatrix.iloc[x-1][3]) = MaxDrawdown) & ((12TargetIncomeValuesMatrix.iloc[x-1][3]) = MinDrawdown))
-                ValuesMatrix.iloc[x][1] = ValuesMatrix.iloc[x-1][3] - 12TargetIncome
-                ValuesMatrix.iloc[x][2] = ValuesMatrix.iloc[x][1]RealReturn
+            if (((12*TargetIncome/ValuesMatrix.iloc[x-1][3]) <= MaxDrawdown) & ((12*TargetIncome/ValuesMatrix.iloc[x-1][3]) >= MinDrawdown)):
+                ValuesMatrix.iloc[x][1] = ValuesMatrix.iloc[x-1][3] - 12*TargetIncome
+                ValuesMatrix.iloc[x][2] = ValuesMatrix.iloc[x][1]*RealReturn
                 ValuesMatrix.iloc[x][3] = ValuesMatrix.iloc[x][2] + ValuesMatrix.iloc[x][1]
                 ValuesMatrix.iloc[x][4] = TargetIncome
 
-            elif ((12TargetIncomeValuesMatrix.iloc[x-1][3])  MaxDrawdown)
-                ValuesMatrix.iloc[x][1] = ValuesMatrix.iloc[x-1][3](1-MaxDrawdown)
-                ValuesMatrix.iloc[x][2] = ValuesMatrix.iloc[x][1]RealReturn
+            elif ((12*TargetIncome/ValuesMatrix.iloc[x-1][3]) > MaxDrawdown):
+                ValuesMatrix.iloc[x][1] = ValuesMatrix.iloc[x-1][3]*(1-MaxDrawdown)
+                ValuesMatrix.iloc[x][2] = ValuesMatrix.iloc[x][1]*RealReturn
                 ValuesMatrix.iloc[x][3] = ValuesMatrix.iloc[x][2] + ValuesMatrix.iloc[x][1]
-                ValuesMatrix.iloc[x][4] = ValuesMatrix.iloc[x-1][3]MaxDrawdown12
+                ValuesMatrix.iloc[x][4] = ValuesMatrix.iloc[x-1][3]*MaxDrawdown/12
 
-            elif ((12TargetIncomeValuesMatrix.iloc[x-1][3])  MinDrawdown)
-                ValuesMatrix.iloc[x][1] = ValuesMatrix.iloc[x-1][3](1-MinDrawdown)
-                ValuesMatrix.iloc[x][2] = ValuesMatrix.iloc[x][1]RealReturn
+            elif ((12*TargetIncome/ValuesMatrix.iloc[x-1][3]) < MinDrawdown):
+                ValuesMatrix.iloc[x][1] = ValuesMatrix.iloc[x-1][3]*(1-MinDrawdown)
+                ValuesMatrix.iloc[x][2] = ValuesMatrix.iloc[x][1]*RealReturn
                 ValuesMatrix.iloc[x][3] = ValuesMatrix.iloc[x][2] + ValuesMatrix.iloc[x][1]
-                ValuesMatrix.iloc[x][4] = ValuesMatrix.iloc[x-1][3]MinDrawdown12
+                ValuesMatrix.iloc[x][4] = ValuesMatrix.iloc[x-1][3]*MinDrawdown/12
 
             ValuesMatrix.iloc[x][5] = ValuesMatrix.iloc[x][3]
 
-    ValuesMatrix = ValuesMatrix.rename(columns = {0 'Age', 1 'Start fund value' , 2 'Growth', 3 'Retirement fund value', 4 'Retirement income', 5 'Real retirement fund value'}, inplace = False)
+    ValuesMatrix = ValuesMatrix.rename(columns = {0 :'Age', 1 :'Start fund value' , 2: 'Growth', 3: 'Retirement fund value', 4: 'Retirement income', 5: 'Real retirement fund value'}, inplace = False)
 
     RetirementGraph = px.bar(ValuesMatrix, x= 'Age', y='Real retirement fund value')
 
 
-    RetirementIncome = px.bar(ValuesMatrix[ValuesMatrix['Age'] = Client_Retirement_Age], x= 'Age', y= 'Retirement income')
+    RetirementIncome = px.bar(ValuesMatrix[ValuesMatrix['Age'] >= Client_Retirement_Age], x= 'Age', y= 'Retirement income')
 
 
     #Formatting outputs
-    Client_GrowthRate = round(Client_GrowthRate100,1)
-    Client_Inflation = round(Client_Inflation100,1)
+    Client_GrowthRate = round(Client_GrowthRate*100,1)
+    Client_Inflation = round(Client_Inflation*100,1)
 
     return 'You are {} years of age'.format(Client_age), 'You want to retire at {} years of age'.format(Client_Retirement_Age), 'You want to invest R{}'.format(InvestmentAmount) , 'You will live {} years in retirement'.format(TermInRetirement) , '{}% nominal growth per year'.format(Client_GrowthRate),  '{}% inflation per year'.format(Client_Inflation) , 'You require monthly income of R{} in retirement'.format(Client_target_Income), RetirementGraph, RetirementIncome
 
 
 @app.callback(dash.dependencies.Output('page-content', 'children'),
               [dash.dependencies.Input('url', 'pathname')])
-def display_page(pathname)
-    if pathname == 'ActuarialDashboard'
+def display_page(pathname):
+    if pathname == 'ActuarialDashboard':
         return page_2_layout
-    elif pathname == 'TimeSeriesAnalysis'
+    elif pathname == 'TimeSeriesAnalysis':
         return page_1_layout
-    else
+    else:
         return page_2_layout
 
 
-if __name__ == __main__
+if __name__ == '__main__':
     app.run_server(debug=False)
