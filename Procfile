@@ -1,1 +1,1 @@
-web: gunicorn investmentcalculator:app
+web: gunicorn app:server
