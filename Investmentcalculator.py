@@ -33,7 +33,7 @@ external_stylesheets = [
 
 
 app = dash.Dash(__name__,external_stylesheets=external_stylesheets)
-app.title = "Finical advisory"
+app.title = "Deployment Test"
 
 server = app.server
 
@@ -49,7 +49,7 @@ dbc.NavbarSimple(
     children=[
         dbc.NavItem(dbc.NavLink("Investment calculator", href="/Investment calculator")),
     ],
-    brand="Finical advisory",
+    brand="Deployment Test",
     brand_href="#",
     color="#3edbf0",
     dark=True,
