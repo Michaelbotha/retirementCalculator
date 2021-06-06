@@ -10517,3 +10517,17 @@ background-color: #77acf1;
   background-color:#3edbf0;
   margin: 0;
 }
+
+.InDivText {
+  text-align: center;
+  font-size: 20px;
+  color: white;
+  height: 40px;
+  margin: 0;
+  justify-content: center;
+}
+
+.InvestmentTypeDiv {
+  width: auto;
+  padding: 30px;
+}
