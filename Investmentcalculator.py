@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[21]:
+# In[25]:
 
 
 #Single selections dropdown working with freq
@@ -13,12 +13,9 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import urllib.parse
-import io
-import flask
-from dash.dependencies import Output, Input, State
+from dash.dependencies import Output, Input
 import dash_bootstrap_components as dbc
-from dash.dependencies import Input, Output
-import time
+
 
 
 SATaxi_LOGO = "https://cdn0.iconfinder.com/data/icons/cars-and-delivery/512/minibus-512.png"
